@@ -1,4 +1,7 @@
 import networkx as nx
+import dash
+from dash import dcc, html, Input, Output
+import plotly.graph_objects as go
 
 # Criação dos Nós
 
@@ -146,15 +149,151 @@ G.add_edge("Projeto Integrador 1 - FGA0150", "Projeto Integrador de Engenharia 2
 # partindo de trabalho de conclusão de curso 1
 G.add_edge("Trabalho de Conclusão de Curso 1 - FGA0287", "Trabalho de Conclusão de Curso 2 - FGA0290")
 
+# Inicializando o app Dash
+app = dash.Dash(__name__)
 
+# Layout do app
+app.layout = html.Div([
+    html.H1("Fluxograma de Engenharia de Software - UnB"),
+    dcc.Graph(id='graph', config={'displayModeBar': False}),
+    html.Div(id='output-container', style={'margin-top': '20px'})
+])
 
+# Função para atualizar o grafo
+@app.callback(
+    Output('graph', 'figure'),
+    Output('output-container', 'children'),
+    Input('graph', 'clickData')  # Detecta clique em um nó
+)
+def update_graph(clickData):
+    # Define posições fixas para cada nó, organizadas por semestre
+    pos = {
+        # 1º Semestre
+        "Cálculo 1 - MAT0025": (0, 7),
+        "Algoritmo e Programação de Computadores - CIC0004": (0, 5.5),
+        "Desenho Industrial Assistido por Computador - FGA0168": (0, 4),
+        "Engenharia e Ambientes - FGA0302": (0, 2.5),
+        "Introdução à Engenharia - FGA0163": (0, 1),
+        
+        # 2º Semestre
+        "Cálculo 2 - MAT0026": (1.5, 7),
+        "Física 1 - IFD0171": (1.5, 5.5),
+        "Física 1 Experimental - IFD0173": (1.5, 4),
+        "Introdução à Álgebra Linear - MAT0031": (1.5, 2.5),
+        "Probabilidade e Estatística Aplicada à Engenharia - FGA0157": (1.5, 1),
+        "Desenvolvimento de Software - FGA0084": (1.5, -0.5),
+        
+        # 3º Semestre
+        "Métodos Numéricos para Engenharia - FGA0160": (3, 7),
+        "Engenharia Econômica - FGA0133": (3, 5.5),
+        "Humanidades e Cidadania - FGA0164": (3, 4),
+        "Teoria de Eletrônica Digital 1 - FGA0073": (3, 2.5),
+        "Prática de Eletrônica Digital 1 - FGA0071": (3, 1),
+        "Orientação a Objetos - FGA0154": (3, -0.5),
+        "Matemática Discreta 1 - FGA0085": (3, -1),
 
+        # 4º Semestre
+        "Gestão da Produção e Qualidade - FGA0173": (4.5, 7),
+        "Métodos de Desenvolvimento de Software - FGA0312": (4.5, 5.5),
+        "Estrutura de Dados 1 - FGA0146": (4.5, 4),
+        "Fundamentos de Arquiteturas de Computadores - FGA0142": (4.5, 2.5),
+        "Matemática Discreta 2 - FGA0108": (4.5, 1),
+        "Projeto Integrador 1 - FGA0150": (4.5, -0.5),
+        
+        # 5º Semestre
+        "Interação Humano Computador - FGA0173": (6, 7),
+        "Requisitos de Software - FGA0313": (6, 5.5),
+        "Sistema de Banco de Dados 1 - FGA0137": (6, 4),
+        "Fundamentos de Sistemas Operacionais - FGA0170": (6, 2.5),
+        "Compiladores 1 - FGA0003": (6, 1),
+        "Estrutura de Dados 2 - FGA0030": (6, -0.5),
+        
+        # 6º Semestre
+        "Qualidade de Software 1 - FGA0315": (7.5, 7),
+        "Testes de Software - FGA0314": (7.5, 5.5),
+        "Arquitetura e Desenho de Software - FGA0208": (7.5, 4),
+        "Fundamentos de Redes de Computadores - FGA0211": (7.5, 2.5),
+        "Sistema de Banco de Dados 2 - FGA0060": (7.5, 1),
+        "Projeto e Análise de Algoritmos - FGA0124": (7.5, -0.5),
+        
+        # 7º Semestre
+        "Técnicas de Programação em Plataformas Emergentes - FGA0242": (9, 7),
+        "Paradigmas de Programação - FGA0210": (9, 5.5),
+        "Fundamentos de Sistemas Embarcados - FGA0103": (9, 4),
+        "Programação para Sistemas Paralelos e Distribuídos - FGA0244": (9, 2.5),
+        
+        # 8º Semestre
+        "Engenharia de Produto de Software - FGA0316": (10.5, 7),
+        "Gerência de Configuração e Evolução de Software - FGA0317": (10.5, 5.5),
+        
+        # 9º Semestre
+        "Trabalho de Conclusão de Curso 1 - FGA0287": (12, 7),
+        "Projeto Integrador de Engenharia 2 - FGA0250": (12, 5.5),
+        
+        # 10º Semestre
+        "Trabalho de Conclusão de Curso 2 - FGA0290": (13.5, 7)
+    }
+    
+    # Código para desenhar arestas e nós usando as posições fixas
+    edge_x = []
+    edge_y = []
+    for edge in G.edges():
+        x0, y0 = pos[edge[0]]
+        x1, y1 = pos[edge[1]]
+        edge_x.append(x0)
+        edge_x.append(x1)
+        edge_x.append(None)
+        edge_y.append(y0)
+        edge_y.append(y1)
+        edge_y.append(None)
 
+    edge_trace = go.Scatter(
+        x=edge_x, y=edge_y,
+        line=dict(width=1.5, color='#888'),  # Aumentando a espessura e ajustando a cor
+        hoverinfo='none',
+        mode='lines')
 
+    node_x = []
+    node_y = []
+    node_text = []
+    for node in G.nodes():
+        x, y = pos[node]
+        node_x.append(x)
+        node_y.append(y)
+        node_text.append(node)
 
+    node_trace = go.Scatter(
+        x=node_x, y=node_y,
+        mode='markers+text',
+        text=node_text,
+        textposition="middle center",
+        hoverinfo='text',
+        marker=dict(
+            showscale=False,
+            symbol="square",  # Define o símbolo como quadrado para simular retângulos
+            size=50,  # Aumenta o tamanho do "retângulo"
+            color='#1f77b4',  # Cor dos nós
+            line=dict(width=1, color='#333')  # Borda dos nós
+        ),
+        textfont=dict(size=10)  # Ajuste do tamanho da fonte
+    )
 
+    # Construindo a figura
+    fig = go.Figure(data=[edge_trace, node_trace],
+                    layout=go.Layout(
+                        title='Mapa de Disciplinas',
+                        titlefont_size=16,
+                        showlegend=False,
+                        hovermode='closest',
+                        margin=dict(b=20, l=5, r=5, t=40),
+                        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)
+                    ))
 
+    # Saída das disciplinas liberadas
+    liberadas = "Disciplinas liberadas: [...]"  # Aqui você incluirá a lógica para determinar disciplinas liberadas
 
+    return fig, liberadas
 
-
-
+if __name__ == '__main__':
+    app.run_server(debug=True)
