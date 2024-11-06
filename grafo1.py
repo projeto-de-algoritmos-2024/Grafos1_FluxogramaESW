@@ -149,6 +149,21 @@ G.add_edge("Projeto Integrador 1 - FGA0150", "Projeto Integrador de Engenharia 2
 # partindo de trabalho de conclusão de curso 1
 G.add_edge("Trabalho de Conclusão de Curso 1 - FGA0287", "Trabalho de Conclusão de Curso 2 - FGA0290")
 
+# Lista de disciplinas concluídas
+disciplinas_concluidas = set()  # Inicialmente vazia
+
+# Função para verificar disciplinas liberadas usando BFS
+def disciplinas_liberadas(grafo, concluidas):
+    liberadas = set()
+    for disciplina in concluidas:
+        # Verifica cada vizinho da disciplina concluída
+        for vizinho in grafo.successors(disciplina):
+            # Todos os pré-requisitos do vizinho devem estar concluídos
+            pre_requisitos = set(grafo.predecessors(vizinho))
+            if pre_requisitos.issubset(concluidas):
+                liberadas.add(vizinho)
+    return liberadas - concluidas  # Remove disciplinas que já foram concluídas
+
 # Inicializando o app Dash
 app = dash.Dash(__name__)
 
@@ -159,13 +174,25 @@ app.layout = html.Div([
     html.Div(id='output-container', style={'margin-top': '20px'})
 ])
 
-# Função para atualizar o grafo
+# Função para atualizar o grafo e exibir as disciplinas liberadas
 @app.callback(
     Output('graph', 'figure'),
     Output('output-container', 'children'),
     Input('graph', 'clickData')  # Detecta clique em um nó
 )
 def update_graph(clickData):
+
+    global disciplinas_concluidas
+    
+    # Marca uma disciplina como concluída quando o usuário clica nela
+    if clickData:
+        selected_course = clickData['points'][0]['text']
+        disciplinas_concluidas.add(selected_course)  # Adiciona a disciplina como concluída
+
+    # Obter as disciplinas liberadas
+    liberadas = disciplinas_liberadas(G, disciplinas_concluidas)
+    liberadas_texto = "Disciplinas liberadas: " + ", ".join(liberadas)
+
     # Define posições fixas para cada nó, organizadas por semestre
     pos = {
         # 1º Semestre
@@ -256,11 +283,20 @@ def update_graph(clickData):
     node_x = []
     node_y = []
     node_text = []
+    node_color = []
     for node in G.nodes():
         x, y = pos[node]
         node_x.append(x)
         node_y.append(y)
         node_text.append(node)
+
+        # Define a cor dos nós
+        if node in disciplinas_concluidas:
+            node_color.append("lightgreen")  # Concluídas em verde claro
+        elif node in liberadas:
+            node_color.append("lightblue")  # Liberadas em azul claro
+        else:
+            node_color.append("lightgrey")  # Não liberadas em cinza claro
 
     node_trace = go.Scatter(
         x=node_x, y=node_y,
@@ -270,13 +306,14 @@ def update_graph(clickData):
         hoverinfo='text',
         marker=dict(
             showscale=False,
-            symbol="square",  # Define o símbolo como quadrado para simular retângulos
-            size=50,  # Aumenta o tamanho do "retângulo"
-            color='#1f77b4',  # Cor dos nós
-            line=dict(width=1, color='#333')  # Borda dos nós
+            symbol="square",
+            size=50,
+            color=node_color,  # Aplica a lista de cores
+            line=dict(width=1, color='#333')
         ),
-        textfont=dict(size=10)  # Ajuste do tamanho da fonte
+        textfont=dict(size=10)
     )
+
 
     # Construindo a figura
     fig = go.Figure(data=[edge_trace, node_trace],
@@ -290,10 +327,8 @@ def update_graph(clickData):
                         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)
                     ))
 
-    # Saída das disciplinas liberadas
-    liberadas = "Disciplinas liberadas: [...]"  # Aqui você incluirá a lógica para determinar disciplinas liberadas
+    return fig, liberadas_texto
 
-    return fig, liberadas
 
 if __name__ == '__main__':
     app.run_server(debug=True)
