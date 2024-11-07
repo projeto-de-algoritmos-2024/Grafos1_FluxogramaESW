@@ -2,6 +2,7 @@ import networkx as nx
 import dash
 from dash import dcc, html, Input, Output
 import plotly.graph_objects as go
+from collections import deque
 
 # Criação dos Nós
 
@@ -152,16 +153,19 @@ G.add_edge("Trabalho de Conclusão de Curso 1 - FGA0287", "Trabalho de Conclusã
 # Lista de disciplinas concluídas
 disciplinas_concluidas = set()  # Inicialmente vazia
 
-# Função para verificar disciplinas liberadas usando BFS
-def disciplinas_liberadas(grafo, concluidas):
+def disciplinas_liberadas_bfs(grafo, concluidas):
     liberadas = set()
-    for disciplina in concluidas:
-        # Verifica cada vizinho da disciplina concluída
+    fila = deque(concluidas)  # Inicializamos a fila com as disciplinas concluídas
+
+    while fila:
+        disciplina = fila.popleft()  # Retira uma disciplina da fila
         for vizinho in grafo.successors(disciplina):
             # Todos os pré-requisitos do vizinho devem estar concluídos
             pre_requisitos = set(grafo.predecessors(vizinho))
-            if pre_requisitos.issubset(concluidas):
+            if pre_requisitos.issubset(concluidas) and vizinho not in concluidas:
                 liberadas.add(vizinho)
+                fila.append(vizinho)  # Adiciona o vizinho à fila para explorar seus vizinhos
+
     return liberadas - concluidas  # Remove disciplinas que já foram concluídas
 
 # Inicializando o app Dash
@@ -190,7 +194,7 @@ def update_graph(clickData):
         disciplinas_concluidas.add(selected_course)  # Adiciona a disciplina como concluída
 
     # Obter as disciplinas liberadas
-    liberadas = disciplinas_liberadas(G, disciplinas_concluidas)
+    liberadas = disciplinas_liberadas_bfs(G, disciplinas_concluidas)
     liberadas_texto = "Disciplinas liberadas: " + ", ".join(liberadas)
 
     # Define posições fixas para cada nó, organizadas por semestre
@@ -203,62 +207,62 @@ def update_graph(clickData):
         "Introdução à Engenharia - FGA0163": (0, 1),
         
         # 2º Semestre
-        "Cálculo 2 - MAT0026": (1.5, 7),
-        "Física 1 - IFD0171": (1.5, 5.5),
-        "Física 1 Experimental - IFD0173": (1.5, 4),
-        "Introdução à Álgebra Linear - MAT0031": (1.5, 2.5),
-        "Probabilidade e Estatística Aplicada à Engenharia - FGA0157": (1.5, 1),
-        "Desenvolvimento de Software - FGA0084": (1.5, -0.5),
+        "Cálculo 2 - MAT0026": (2, 7),
+        "Física 1 - IFD0171": (2, 5.5),
+        "Física 1 Experimental - IFD0173": (2, 4),
+        "Introdução à Álgebra Linear - MAT0031": (2, 2.5),
+        "Probabilidade e Estatística Aplicada à Engenharia - FGA0157": (2, 1),
+        "Desenvolvimento de Software - FGA0084": (2, -0.5),
         
         # 3º Semestre
-        "Métodos Numéricos para Engenharia - FGA0160": (3, 7),
-        "Engenharia Econômica - FGA0133": (3, 5.5),
-        "Humanidades e Cidadania - FGA0164": (3, 4),
-        "Teoria de Eletrônica Digital 1 - FGA0073": (3, 2.5),
-        "Prática de Eletrônica Digital 1 - FGA0071": (3, 1),
-        "Orientação a Objetos - FGA0154": (3, -0.5),
-        "Matemática Discreta 1 - FGA0085": (3, -1),
+        "Métodos Numéricos para Engenharia - FGA0160": (4, 7),
+        "Engenharia Econômica - FGA0133": (4, 5.5),
+        "Humanidades e Cidadania - FGA0164": (4, 4),
+        "Teoria de Eletrônica Digital 1 - FGA0073": (4, 2.5),
+        "Prática de Eletrônica Digital 1 - FGA0071": (4, 1),
+        "Orientação a Objetos - FGA0154": (4, -0.5),
+        "Matemática Discreta 1 - FGA0085": (4, -2),
 
         # 4º Semestre
-        "Gestão da Produção e Qualidade - FGA0173": (4.5, 7),
-        "Métodos de Desenvolvimento de Software - FGA0312": (4.5, 5.5),
-        "Estrutura de Dados 1 - FGA0146": (4.5, 4),
-        "Fundamentos de Arquiteturas de Computadores - FGA0142": (4.5, 2.5),
-        "Matemática Discreta 2 - FGA0108": (4.5, 1),
-        "Projeto Integrador 1 - FGA0150": (4.5, -0.5),
+        "Gestão da Produção e Qualidade - FGA0173": (6, 7),
+        "Métodos de Desenvolvimento de Software - FGA0312": (6, 5.5),
+        "Estrutura de Dados 1 - FGA0146": (6, 4),
+        "Fundamentos de Arquiteturas de Computadores - FGA0142": (6, 2.5),
+        "Matemática Discreta 2 - FGA0108": (6, 1),
+        "Projeto Integrador 1 - FGA0150": (6, -0.5),
         
         # 5º Semestre
-        "Interação Humano Computador - FGA0173": (6, 7),
-        "Requisitos de Software - FGA0313": (6, 5.5),
-        "Sistema de Banco de Dados 1 - FGA0137": (6, 4),
-        "Fundamentos de Sistemas Operacionais - FGA0170": (6, 2.5),
-        "Compiladores 1 - FGA0003": (6, 1),
-        "Estrutura de Dados 2 - FGA0030": (6, -0.5),
+        "Interação Humano Computador - FGA0173": (8, 7),
+        "Requisitos de Software - FGA0313": (8, 5.5),
+        "Sistema de Banco de Dados 1 - FGA0137": (8, 4),
+        "Fundamentos de Sistemas Operacionais - FGA0170": (8, 2.5),
+        "Compiladores 1 - FGA0003": (8, 1),
+        "Estrutura de Dados 2 - FGA0030": (8, -0.5),
         
         # 6º Semestre
-        "Qualidade de Software 1 - FGA0315": (7.5, 7),
-        "Testes de Software - FGA0314": (7.5, 5.5),
-        "Arquitetura e Desenho de Software - FGA0208": (7.5, 4),
-        "Fundamentos de Redes de Computadores - FGA0211": (7.5, 2.5),
-        "Sistema de Banco de Dados 2 - FGA0060": (7.5, 1),
-        "Projeto e Análise de Algoritmos - FGA0124": (7.5, -0.5),
+        "Qualidade de Software 1 - FGA0315": (10, 7),
+        "Testes de Software - FGA0314": (10, 5.5),
+        "Arquitetura e Desenho de Software - FGA0208": (10, 4),
+        "Fundamentos de Redes de Computadores - FGA0211": (10, 2.5),
+        "Sistema de Banco de Dados 2 - FGA0060": (10, 1),
+        "Projeto e Análise de Algoritmos - FGA0124": (10, -0.5),
         
         # 7º Semestre
-        "Técnicas de Programação em Plataformas Emergentes - FGA0242": (9, 7),
-        "Paradigmas de Programação - FGA0210": (9, 5.5),
-        "Fundamentos de Sistemas Embarcados - FGA0103": (9, 4),
-        "Programação para Sistemas Paralelos e Distribuídos - FGA0244": (9, 2.5),
+        "Técnicas de Programação em Plataformas Emergentes - FGA0242": (12, 7),
+        "Paradigmas de Programação - FGA0210": (12, 5.5),
+        "Fundamentos de Sistemas Embarcados - FGA0103": (12, 4),
+        "Programação para Sistemas Paralelos e Distribuídos - FGA0244": (12, 2.5),
         
         # 8º Semestre
-        "Engenharia de Produto de Software - FGA0316": (10.5, 7),
-        "Gerência de Configuração e Evolução de Software - FGA0317": (10.5, 5.5),
+        "Engenharia de Produto de Software - FGA0316": (14, 7),
+        "Gerência de Configuração e Evolução de Software - FGA0317": (14, 5.5),
         
         # 9º Semestre
-        "Trabalho de Conclusão de Curso 1 - FGA0287": (12, 7),
-        "Projeto Integrador de Engenharia 2 - FGA0250": (12, 5.5),
+        "Trabalho de Conclusão de Curso 1 - FGA0287": (16, 7),
+        "Projeto Integrador de Engenharia 2 - FGA0250": (16, 5.5),
         
         # 10º Semestre
-        "Trabalho de Conclusão de Curso 2 - FGA0290": (13.5, 7)
+        "Trabalho de Conclusão de Curso 2 - FGA0290": (18, 7)
     }
     
     # Código para desenhar arestas e nós usando as posições fixas
@@ -276,7 +280,7 @@ def update_graph(clickData):
 
     edge_trace = go.Scatter(
         x=edge_x, y=edge_y,
-        line=dict(width=1.5, color='#888'),  # Aumentando a espessura e ajustando a cor
+        line=dict(width=2, color='#888'),  # Aumentando a espessura e ajustando a cor
         hoverinfo='none',
         mode='lines')
 
@@ -322,9 +326,11 @@ def update_graph(clickData):
                         titlefont_size=16,
                         showlegend=False,
                         hovermode='closest',
-                        margin=dict(b=20, l=5, r=5, t=40),
+                        margin=dict(b=40, l=50, r=50, t=60),
                         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)
+                        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                        height=600
+                        
                     ))
 
     return fig, liberadas_texto
