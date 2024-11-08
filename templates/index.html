@@ -27,11 +27,13 @@
     <h2>Diagrama de Pré-requisitos</h2>
     <input type="text" id="disciplina" placeholder="Digite a disciplina" onkeyup="filtrarDisciplinas()">
     <button onclick="buscarPreRequisitos()">Destacar Pré-requisitos</button>
+    <button onclick="buscarDisciplinasSequentes()">Destacar Disciplinas Seguintes</button>
     <div id="sugestoes"></div>
     <canvas id="canvas" width="1466" height="988"></canvas>
 
     <script>
         const disciplinas = {
+            "Algoritmo e Programação de Computadores - CIC0004": [],
             "Cálculo 2 - MAT0026": ["Cálculo 1 - MAT0025"],
             "Métodos Numéricos para Engenharia - FGA0160": ["Cálculo 2 - MAT0026"],
             "Probabilidade e Estatística Aplicada à Engenharia - FGA0157": ["Cálculo 1 - MAT0025"],
@@ -136,6 +138,45 @@
                 if (coordenadas) {
                     ctx.strokeStyle = 'red';
                     ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    
+                    ctx.moveTo(coordenadas[0][0], coordenadas[0][1]);
+                    
+                    for (let i = 1; i < coordenadas.length; i++) {
+                        ctx.lineTo(coordenadas[i][0], coordenadas[i][1]);
+                    }
+                    
+                    ctx.stroke();
+                }
+            });
+        }
+
+        function buscarDisciplinasSequentes() {
+            const disciplina = document.getElementById("disciplina").value;
+
+            fetch("/disciplinas_sequentes", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ disciplina: disciplina })
+            })
+            .then(response => response.json())
+            .then(data => {
+                desenharSetas(data.sequentes);
+            })
+            .catch(error => console.error("Erro:", error));
+        }
+
+        function desenharSetas(desenharSetas) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            desenharSetas.forEach(coordenadas => {
+                if (coordenadas) {
+                    ctx.strokeStyle = 'green';
+                    ctx.lineWidth = 3;
                     ctx.beginPath();
                     
                     ctx.moveTo(coordenadas[0][0], coordenadas[0][1]);
