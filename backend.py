@@ -11,6 +11,7 @@ with open('coordenadas.json') as f:
 # Exemplo de grafo de disciplinas com pré-requisitos
 grafo_disciplinas = {
     "Algoritmo e Programação de Computadores - CIC0004": [],
+    "Cálculo 1 - MAT0025": [],
     "Cálculo 2 - MAT0026": ["Cálculo 1 - MAT0025"],
     "Métodos Numéricos para Engenharia - FGA0160": ["Cálculo 2 - MAT0026"],
     "Probabilidade e Estatística Aplicada à Engenharia - FGA0157": ["Cálculo 1 - MAT0025"],
@@ -38,6 +39,7 @@ grafo_disciplinas = {
     "Fundamentos de Redes de Computadores - FGA0211": ["Fundamentos de Sistemas Operacionais - FGA0170"],
     "Fundamentos de Sistemas Embarcados - FGA0103": ["Fundamentos de Sistemas Operacionais - FGA0170"],
     "Gestão da Produção e Qualidade - FGA0173": ["Engenharia Econômica - FGA0133"],
+    "Matemática Discreta 1 - FGA0085": [],
     "Matemática Discreta 2 - FGA0108": ["Matemática Discreta 1 - FGA0085"],
     "Sistema de Banco de Dados 1 - FGA0137": ["Matemática Discreta 2 - FGA0108"],
     "Sistema de Banco de Dados 2 - FGA0060": ["Sistema de Banco de Dados 1 - FGA0137"],

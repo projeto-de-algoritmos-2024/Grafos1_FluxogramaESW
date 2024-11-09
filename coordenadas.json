@@ -11,9 +11,9 @@
     
     "Métodos de Desenvolvimento de Software - FGA0312, Requisitos de Software - FGA0313": [[560, 290], [607, 290]],
     
-    "Requisitos de Software - FGA0313, Testes de Software - FGA0314": [[701, 290], [749, 209]],
+    "Requisitos de Software - FGA0313, Testes de Software - FGA0314": [[701, 289], [749, 289]],
     
-    "Testes de Software - FGA0314, Gerência de Configuração e Evolução de Software - FGA0317": [[843, 277], [853, 277], [835, 238], [1000, 23], [1000, 29], [1032, 29]],
+    "Testes de Software - FGA0314, Gerência de Configuração e Evolução de Software - FGA0317": [[843, 277], [853, 277], [853, 238], [1000, 238], [1000, 290], [1032, 290]],
 
     "Testes de Software - FGA0314, Técnicas de Programação em Plataformas Emergentes - FGA0242": [[843, 257], [865, 257], [865, 167], [890, 167]],
 
@@ -43,7 +43,7 @@
     
     "Estrutura de Dados 2 - FGA0030, Programação para Sistemas Paralelos e Distribuídos - FGA0244": [[700, 789], [719, 789], [719, 736], [861, 736], [861, 577], [889, 577]],
 
-    "Introdução à Álgebra Linear - MAT0031, Teoria de Eletrônica Digital 1 - FGA0073": [[277, 243], [323, 543]],
+    "Introdução à Álgebra Linear - MAT0031, Teoria de Eletrônica Digital 1 - FGA0073": [[277, 543], [323, 543]],
     
     "Teoria de Eletrônica Digital 1 - FGA0073, Fundamentos de Arquiteturas de Computadores - FGA0142": [[417, 544], [466, 544]],
     
@@ -53,7 +53,7 @@
     
     "Fundamentos de Redes de Computadores - FGA0211, Programação para Sistemas Paralelos e Distribuídos - FGA0244": [[842, 544], [889, 544]],
 
-    "Fundamentos de Sistemas Operacionais - FGA0170, Fundamentos de Sistemas Embarcados - FGA0103": [[701, 512], [737, 512], [737, 489], [863, 489], [863, 422], [889, 442]],
+    "Fundamentos de Sistemas Operacionais - FGA0170, Fundamentos de Sistemas Embarcados - FGA0103": [[701, 512], [737, 512], [737, 489], [863, 489], [863, 422], [889, 422]],
 
     "Engenharia Econômica - FGA0133, Gestão da Produção e Qualidade - FGA0173": [[418, 257], [427, 257], [427, 239], [421, 239], [421, 218], [427, 218], [427, 167], [466, 167]],
 
