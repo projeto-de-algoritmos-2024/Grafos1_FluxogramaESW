@@ -30,7 +30,7 @@ As disciplinas sequentes são exibidas com setas saindo da disciplina fornecida 
 
 ### Representação Visual
 
-O diagrama de dependências, carregado na interface, destaca as disciplinas e seus relacionamentos com cores e setas. As setas são desenhadas de acordo com as coordenadas obtidas a partir do arquivo ***coordenadas.json***, que define a posição e o layout gráfico dos elementos no diagrama. 
+O diagrama de dependências carregado na interface, que pode ser econtrado [aqui](http://software.unb.br/ensino/estrutura-curricular) destaca as disciplinas e seus relacionamentos com cores e setas. As setas são desenhadas de acordo com as coordenadas obtidas a partir do arquivo ***coordenadas.json***, que define a posição e o layout gráfico dos elementos no diagrama. 
 
 Quando o usuário entra na interface, aparecem duas opções caso ele tenha escolhido uma disciplina, facilitando a compreensão visual das cadeias de pré-requisitos e sequentes.
 
