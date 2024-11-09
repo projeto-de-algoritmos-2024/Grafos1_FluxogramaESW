@@ -54,13 +54,13 @@ Em resumo, este projeto combina algoritmos de grafos com uma interface intuitiva
 
 ## Screenshots
 
-<p style="text-align: center;">Buscando a disciplina "Fundamentos de Sistemas Operacionais - FGA0170"</p>
+> Buscando a disciplina "Fundamentos de Sistemas Operacionais - FGA0170"
 
 ![Buscando uma disciplina](./static/searchTPPE.png)
 
 ________________________________________________________________________________
 
-<p style="text-align: center;">Percorrendo todos os pré-requisitos da disciplina escolhida"</p>
+ >Percorrendo todos os pré-requisitos da disciplina escolhida"
 
 ![Encontrando os pré-requisitos](./static/preTPPE.png)
 
@@ -76,7 +76,7 @@ Perceba que para "Fundamentos de Sistemas Operacionais - FGA0170", foram encontr
 ________________________________________________________________________________
 
 
-<p style="text-align: center;">Percorrendo todas as disciplinas seguintes"</p>
+> Percorrendo todas as disciplinas seguintes
 
 ![alt text](./static/TPPEsequentes.png)
 
