@@ -54,7 +54,7 @@ Em resumo, este projeto combina algoritmos de grafos com uma interface intuitiva
 
 ## Screenshots
 
-> Buscando a disciplina "Fundamentos de Sistemas Operacionais - FGA0170"
+> Buscando a disciplina "Técnicas de Programação em Plataformas Emergentes - FGA0242"
 
 ![Buscando uma disciplina](./static/searchTPPE.png)
 
@@ -64,7 +64,7 @@ ________________________________________________________________________________
 
 ![Encontrando os pré-requisitos](./static/preTPPE.png)
 
-Perceba que para "Fundamentos de Sistemas Operacionais - FGA0170", foram encontrados os seguintes pré-requisitos diretos e indiretos:
+Perceba que para "Técnicas de Programação em Plataformas Emergentes - FGA0242", foram encontrados os seguintes pré-requisitos diretos e indiretos:
 
 - "Testes de Software - FGA0314"
 - "Arquitetura e Desenho de Software - FGA0208"
@@ -80,7 +80,7 @@ ________________________________________________________________________________
 
 ![alt text](./static/TPPEsequentes.png)
 
-Perceba que para "Fundamentos de Sistemas Operacionais - FGA0170", foram encontradas as disciplinas seguintes:
+Perceba que para "Técnicas de Programação em Plataformas Emergentes - FGA0242", foram encontradas as disciplinas seguintes:
 
 - "Engenharia de Produto de Software - FGA0316"
 
