@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagrama de Pré-requisitos</title>
+    <style>
+        /* Estilos para a lista de sugestões */
+        #sugestoes {
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute;
+            background-color: white;
+            width: 300px;
+            display: none;
+        }
+        #sugestoes div {
+            padding: 8px;
+            cursor: pointer;
+        }
+        #sugestoes div:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Diagrama de Pré-requisitos</h2>
+    <input type="text" id="disciplina" placeholder="Digite a disciplina" onkeyup="filtrarDisciplinas()">
+    <button onclick="buscarPreRequisitos()">Destacar Pré-requisitos</button>
+    <button onclick="buscarDisciplinasSequentes()">Destacar Disciplinas Seguintes</button>
+    <div id="sugestoes"></div>
+    <canvas id="canvas" width="1466" height="988"></canvas>
+
+    <script>
+        const disciplinas = {
+            "Algoritmo e Programação de Computadores - CIC0004": [],
+            "Cálculo 1 - MAT0025": [],
+            "Cálculo 2 - MAT0026": ["Cálculo 1 - MAT0025"],
+            "Métodos Numéricos para Engenharia - FGA0160": ["Cálculo 2 - MAT0026"],
+            "Probabilidade e Estatística Aplicada à Engenharia - FGA0157": ["Cálculo 1 - MAT0025"],
+            "Orientação a Objetos - FGA0154": ["Algoritmo e Programação de Computadores - CIC0004"],
+            "Métodos de Desenvolvimento de Software - FGA0312": ["Orientação a Objetos - FGA0154"],
+            "Requisitos de Software - FGA0313": ["Métodos de Desenvolvimento de Software - FGA0312"],
+            "Testes de Software - FGA0314": ["Requisitos de Software - FGA0313"],
+            "Gerência de Configuração e Evolução de Software - FGA0317": ["Testes de Software - FGA0314"],
+            "Técnicas de Programação em Plataformas Emergentes - FGA0242": ["Testes de Software - FGA0314"],
+            "Interação Humano Computador - FGA0173": ["Métodos de Desenvolvimento de Software - FGA0312"],
+            "Qualidade de Software 1 - FGA0315": ["Interação Humano Computador - FGA0173"],
+            "Arquitetura e Desenho de Software - FGA0208": ["Requisitos de Software - FGA0313"],
+            "Técnicas de Programação em Plataformas Emergentes - FGA0242": ["Arquitetura e Desenho de Software - FGA0208"],
+            "Engenharia de Produto de Software - FGA0316": ["Técnicas de Programação em Plataformas Emergentes - FGA0242"],
+            "Paradigmas de Programação - FGA0210": ["Orientação a Objetos - FGA0154"],
+            "Desenvolvimento de Software - FGA0084": ["Algoritmo e Programação de Computadores - CIC0004"],
+            "Estrutura de Dados 1 - FGA0146": ["Algoritmo e Programação de Computadores - CIC0004"],
+            "Compiladores 1 - FGA0003": ["Estrutura de Dados 1 - FGA0146"],
+            "Paradigmas de Programação - FGA0210": ["Compiladores 1 - FGA0003"],
+            "Projeto e Análise de Algoritmos - FGA0124": ["Estrutura de Dados 1 - FGA0146"],
+            "Estrutura de Dados 2 - FGA0030": ["Estrutura de Dados 1 - FGA0146"],
+            "Programação para Sistemas Paralelos e Distribuídos - FGA0244": ["Estrutura de Dados 2 - FGA0030"],
+            "Introdução à Álgebra Linear - MAT0031": ["Teoria de Eletrônica Digital 1 - FGA0073"],
+            "Fundamentos de Arquiteturas de Computadores - FGA0142": ["Teoria de Eletrônica Digital 1 - FGA0073"],
+            "Fundamentos de Sistemas Operacionais - FGA0170": ["Fundamentos de Arquiteturas de Computadores - FGA0142"],
+            "Fundamentos de Redes de Computadores - FGA0211": ["Fundamentos de Sistemas Operacionais - FGA0170"],
+            "Programação para Sistemas Paralelos e Distribuídos - FGA0244": ["Fundamentos de Redes de Computadores - FGA0211"],
+            "Fundamentos de Sistemas Embarcados - FGA0103": ["Fundamentos de Sistemas Operacionais - FGA0170"],
+            "Gestão da Produção e Qualidade - FGA0173": ["Engenharia Econômica - FGA0133"],
+            "Qualidade de Software 1 - FGA0315": ["Gestão da Produção e Qualidade - FGA0173"],
+            "Matemática Discreta 1 - FGA0085": [],
+            "Matemática Discreta 2 - FGA0108": ["Matemática Discreta 1 - FGA0085"],
+            "Sistema de Banco de Dados 1 - FGA0137": ["Matemática Discreta 2 - FGA0108"],
+            "Sistema de Banco de Dados 2 - FGA0060": ["Sistema de Banco de Dados 1 - FGA0137"],
+            "Projeto Integrador 1 - FGA0150": [],
+            "Projeto Integrador de Engenharia 2 - FGA0250": ["Projeto Integrador 1 - FGA0150"],
+            "Trabalho de Conclusão de Curso 1 - FGA0287": [],
+            "Trabalho de Conclusão de Curso 2 - FGA0290": ["Trabalho de Conclusão de Curso 1 - FGA0287"]
+        };
+
+        const disciplinasList = Object.keys(disciplinas); // Lista de todas as disciplinas
+
+        function filtrarDisciplinas() {
+            const input = document.getElementById('disciplina').value.toLowerCase();
+            const sugestoesDiv = document.getElementById('sugestoes');
+            sugestoesDiv.innerHTML = ''; // Limpa as sugestões anteriores
+
+            if (input.length > 0) {
+                const resultados = disciplinasList.filter(disciplina => disciplina.toLowerCase().includes(input));
+                
+                if (resultados.length > 0) {
+                    sugestoesDiv.style.display = 'block';
+                    resultados.forEach(disciplina => {
+                        const div = document.createElement('div');
+                        div.textContent = disciplina;
+                        div.onclick = () => selecionarDisciplina(disciplina);
+                        sugestoesDiv.appendChild(div);
+                    });
+                } else {
+                    sugestoesDiv.style.display = 'none';
+                }
+            } else {
+                sugestoesDiv.style.display = 'none';
+            }
+        }
+
+        function selecionarDisciplina(disciplina) {
+            document.getElementById('disciplina').value = disciplina;
+            document.getElementById('sugestoes').style.display = 'none';
+        }
+
+        const img = new Image();
+        img.src = '/static/fluxoSFW.png'; // Certifique-se de que o caminho está correto
+        img.onload = function() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        };
+
+        function buscarPreRequisitos() {
+            const disciplina = document.getElementById('disciplina').value;
+
+            fetch('/pre_requisitos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ disciplina: disciplina })
+            })
+            .then(response => response.json())
+            .then(data => {
+                destacarPreRequisitos(data.pre_requisitos);
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function destacarPreRequisitos(preRequisitos) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            preRequisitos.forEach(coordenadas => {
+                if (coordenadas) {
+                    ctx.strokeStyle = 'red';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    
+                    ctx.moveTo(coordenadas[0][0], coordenadas[0][1]);
+                    
+                    for (let i = 1; i < coordenadas.length; i++) {
+                        ctx.lineTo(coordenadas[i][0], coordenadas[i][1]);
+                    }
+                    
+                    ctx.stroke();
+                }
+            });
+        }
+
+        function buscarDisciplinasSequentes() {
+            const disciplina = document.getElementById("disciplina").value;
+
+            fetch("/disciplinas_sequentes", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ disciplina: disciplina })
+            })
+            .then(response => response.json())
+            .then(data => {
+                desenharSetas(data.sequentes);
+            })
+            .catch(error => console.error("Erro:", error));
+        }
+
+        function desenharSetas(desenharSetas) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            desenharSetas.forEach(coordenadas => {
+                if (coordenadas) {
+                    ctx.strokeStyle = 'green';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    
+                    ctx.moveTo(coordenadas[0][0], coordenadas[0][1]);
+                    
+                    for (let i = 1; i < coordenadas.length; i++) {
+                        ctx.lineTo(coordenadas[i][0], coordenadas[i][1]);
+                    }
+                    
+                    ctx.stroke();
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
+
+
+

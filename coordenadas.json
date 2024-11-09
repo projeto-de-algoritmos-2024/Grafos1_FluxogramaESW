@@ -1,0 +1,71 @@
+{
+    "Cálculo 1 - MAT0025, Cálculo 2 - MAT0026": [[135, 167], [182, 167]],
+
+    "Cálculo 2 - MAT0026, Métodos Numéricos para Engenharia - FGA0160": [[277, 167], [324, 167]],
+
+    "Cálculo 1 - MAT0025, Probabilidade e Estatística Aplicada à Engenharia - FGA0157": [[135, 200], [144, 200], [144, 472], [180, 472], [180, 494], [174, 494], [174, 667], [182, 667]],
+
+    "Algoritmo e Programação de Computadores - CIC0004, Orientação a Objetos - FGA0154": [[135, 257], [168, 257], [168, 606], [291, 606], [291, 788], [324, 788]],
+    
+    "Orientação a Objetos - FGA0154, Métodos de Desenvolvimento de Software - FGA0312": [[418, 755], [431, 755], [431, 290], [466, 290]],
+    
+    "Métodos de Desenvolvimento de Software - FGA0312, Requisitos de Software - FGA0313": [[560, 290], [607, 290]],
+    
+    "Requisitos de Software - FGA0313, Testes de Software - FGA0314": [[701, 289], [749, 289]],
+    
+    "Testes de Software - FGA0314, Gerência de Configuração e Evolução de Software - FGA0317": [[843, 277], [853, 277], [853, 238], [1000, 238], [1000, 290], [1032, 290]],
+
+    "Testes de Software - FGA0314, Técnicas de Programação em Plataformas Emergentes - FGA0242": [[843, 257], [865, 257], [865, 167], [890, 167]],
+
+    "Métodos de Desenvolvimento de Software - FGA0312, Interação Humano Computador - FGA0173": [[560, 257], [583, 257], [583, 213], [572, 213], [572, 167], [607, 167]],
+
+    "Interação Humano Computador - FGA0173, Qualidade de Software 1 - FGA0315": [[701, 167], [749, 167]],
+
+    "Requisitos de Software - FGA0313, Arquitetura e Desenho de Software - FGA0208": [[701, 297], [721, 297], [721, 389], [749, 389]],
+    
+    "Arquitetura e Desenho de Software - FGA0208, Técnicas de Programação em Plataformas Emergentes - FGA0242": [[843, 389], [870, 389], [870, 200], [890, 200]],
+    
+    "Técnicas de Programação em Plataformas Emergentes - FGA0242, Engenharia de Produto de Software - FGA0316": [[984, 167], [1032, 167]],
+
+    "Orientação a Objetos - FGA0154, Paradigmas de Programação - FGA0210": [[418, 788], [442, 788], [442, 476], [856, 476], [856, 290], [890, 290]],
+
+    "Algoritmo e Programação de Computadores - CIC0004, Desenvolvimento de Software - FGA0084": [[135, 290], [162, 290], [162, 790], [182, 790]],
+
+    "Algoritmo e Programação de Computadores - CIC0004, Estrutura de Dados 1 - FGA0146": [[135, 323], [177, 323], [177, 357], [440, 357], [440, 419], [466, 419]],
+    
+    "Estrutura de Dados 1 - FGA0146, Compiladores 1 - FGA0003": [[560, 387], [579, 387], [579, 667], [607, 667]],
+    
+    "Compiladores 1 - FGA0003, Paradigmas de Programação - FGA0210": [[701, 667], [712, 667], [712, 607], [873, 607], [873, 323], [890, 323]],
+
+    "Estrutura de Dados 1 - FGA0146, Projeto e Análise de Algoritmos - FGA0124": [[560, 419], [579, 419], [579, 729], [710, 729], [710, 757], [748, 757]],
+
+    "Estrutura de Dados 1 - FGA0146, Estrutura de Dados 2 - FGA0030": [[560, 452], [579, 452], [579, 789], [606, 789]],
+    
+    "Estrutura de Dados 2 - FGA0030, Programação para Sistemas Paralelos e Distribuídos - FGA0244": [[700, 789], [719, 789], [719, 736], [861, 736], [861, 577], [889, 577]],
+
+    "Introdução à Álgebra Linear - MAT0031, Teoria de Eletrônica Digital 1 - FGA0073": [[277, 543], [323, 543]],
+    
+    "Teoria de Eletrônica Digital 1 - FGA0073, Fundamentos de Arquiteturas de Computadores - FGA0142": [[417, 544], [466, 544]],
+    
+    "Fundamentos de Arquiteturas de Computadores - FGA0142, Fundamentos de Sistemas Operacionais - FGA0170": [[560, 544], [607, 544]],
+    
+    "Fundamentos de Sistemas Operacionais - FGA0170, Fundamentos de Redes de Computadores - FGA0211": [[701, 544], [748, 544]],
+    
+    "Fundamentos de Redes de Computadores - FGA0211, Programação para Sistemas Paralelos e Distribuídos - FGA0244": [[842, 544], [889, 544]],
+
+    "Fundamentos de Sistemas Operacionais - FGA0170, Fundamentos de Sistemas Embarcados - FGA0103": [[701, 512], [737, 512], [737, 489], [863, 489], [863, 422], [889, 422]],
+
+    "Engenharia Econômica - FGA0133, Gestão da Produção e Qualidade - FGA0173": [[418, 257], [427, 257], [427, 239], [421, 239], [421, 218], [427, 218], [427, 167], [466, 167]],
+
+    "Gestão da Produção e Qualidade - FGA0173, Qualidade de Software 1 - FGA0315": [[560, 200], [595, 200], [595, 219], [727, 219], [727, 200], [749, 200]],
+
+    "Matemática Discreta 1 - FGA0085, Matemática Discreta 2 - FGA0108": [[417, 910], [453, 910], [453, 667], [466, 667]],
+    
+    "Matemática Discreta 2 - FGA0108, Sistema de Banco de Dados 1 - FGA0137": [[560, 649], [587, 649], [587, 419], [607, 419]],
+    
+    "Sistema de Banco de Dados 1 - FGA0137, Sistema de Banco de Dados 2 - FGA0060": [[701, 419], [724, 419], [724, 667], [748, 667]],
+
+    "Projeto Integrador 1 - FGA0150, Projeto Integrador de Engenharia 2 - FGA0250": [[560, 912], [1177, 912]],
+
+    "Trabalho de Conclusão de Curso 1 - FGA0287, Trabalho de Conclusão de Curso 2 - FGA0290": [[1269, 790], [1316, 790]]
+}
